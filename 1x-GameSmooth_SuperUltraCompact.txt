@@ -1,0 +1,22 @@
+@News @Wiki Editor
+**Name:** 1x-GameSmooth_SuperUltraCompact
+**License:** CC0
+**Link:** https://github.com/Kim2091/Kim2091-Models/releases/download/1x-GameSmooth_SuperUltraCompact/1x-GameSmooth_SuperUltraCompact.pth
+**Model Architecture:** SPAN
+**Scale:** 1
+**Purpose:** Aliased game images
+
+**Iterations:** ~700k
+**batch_size:** 48
+**HR_size:** 128
+**Epoch:** 
+**Dataset:** Kim2091's 8k Game Dataset V2.5
+**Dataset_size:** 29k tiles
+**OTF Training** No
+**Pretrained_Model_G:** None
+
+**Description:** The goal of this model is to provide a fast and clean way to anti-alias game footage. This shouldn't be used for games that use TAA or similar, I'm releasing a model later for that.
+
+It can be used with the latest version of MagPie to upscale in real time: <https://github.com/Blinue/Magpie/releases/tag/onnx-preview1>
+
+https://imgsli.com/MjQ2OTgz
