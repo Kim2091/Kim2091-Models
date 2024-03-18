@@ -2,7 +2,7 @@
 **Name:** 1x-GameSmooth_SuperUltraCompact
 **License:** CC0
 **Link:** https://github.com/Kim2091/Kim2091-Models/releases/download/1x-GameSmooth_SuperUltraCompact/1x-GameSmooth_SuperUltraCompact.pth
-**Model Architecture:** SPAN
+**Model Architecture:** Compact
 **Scale:** 1
 **Purpose:** Aliased game images
 
