@@ -1,2 +1,2 @@
 # Kim2091-Models
-Models I've trained over the years
+Look at the [releases section](https://github.com/Kim2091/Kim2091-Models/releases) for the models! Each release mentions license associated with the models.
