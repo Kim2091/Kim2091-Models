@@ -1,6 +1,7 @@
 ## Kim2091's Models
 Look below for the list of released models, sorted by date!
-Each release mentions license associated with the models.
+
+Each release mentions the license associated with the model.
 
 Please consider supporting my work on Ko-fi:
 
