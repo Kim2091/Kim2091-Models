@@ -1,0 +1,81 @@
+name: Update README with Releases
+
+on:
+  release:
+    types: [published, edited]
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Fetch releases and update README
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Fetch all releases
+          releases=$(gh api repos/${{ github.repository }}/releases --paginate)
+          
+          # Start building the releases section
+          echo "## Releases" > releases_section.md
+          echo "" >> releases_section.md
+          
+          # Parse each release
+          echo "$releases" | jq -r '.[] | @json' | while read -r release; do
+            tag=$(echo "$release" | jq -r '.tag_name')
+            html_url=$(echo "$release" | jq -r '.html_url')
+            body=$(echo "$release" | jq -r '.body')
+            
+            # Extract date from body using regex pattern **Date:** [date]
+            date=$(echo "$body" | grep -oP '\*\*Date:\*\*\s*\K[0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4}' | head -1)
+            
+            # If no date found, use published_at as fallback
+            if [ -z "$date" ]; then
+              date=$(echo "$release" | jq -r '.published_at' | cut -d'T' -f1)
+            fi
+            
+            # Add to releases section
+            echo "- [$tag]($html_url) - $date" >> releases_section.md
+          done
+          
+          # Update README.md
+          # This replaces content between <!-- RELEASES_START --> and <!-- RELEASES_END -->
+          # If markers don't exist, it appends to the end
+          
+          if grep -q "<!-- RELEASES_START -->" README.md; then
+            # Markers exist, replace content between them
+            awk '
+              /<!-- RELEASES_START -->/ {print; system("cat releases_section.md"); f=1; next}
+              /<!-- RELEASES_END -->/ {f=0}
+              !f
+            ' README.md > README.tmp
+            mv README.tmp README.md
+          else
+            # Markers don't exist, append to end
+            echo "" >> README.md
+            echo "<!-- RELEASES_START -->" >> README.md
+            cat releases_section.md >> README.md
+            echo "<!-- RELEASES_END -->" >> README.md
+          fi
+          
+          # Clean up
+          rm releases_section.md
+      
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update README with latest releases"
+            git push
+          fi
