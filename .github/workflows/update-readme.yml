@@ -37,24 +37,33 @@ jobs:
             fi
             
             # Convert date to sortable format YYYYMMDD for sorting
-            # Handle multiple formats: M/D/YY, MM/DD/YY, YY/MM/DD, YYYY-MM-DD
+            # Handle multiple formats: M/D/YY, MM/DD/YY, M-D-YY, MM-DD-YY, YYYY-MM-DD
             sort_date=$(echo "$date" | awk -F'[-/]' '{
               if (NF == 3) {
-                if (index($0, "-") > 0) {
-                  # YYYY-MM-DD format
-                  printf "%04d%02d%02d", $1, $2, $3
-                } else if (length($3) == 4 || ($3 > 24 && length($3) == 2)) {
-                  # YY/MM/DD format (year in position 3, or 2-digit year > 24)
+                # Check if it is YYYY-MM-DD format (year is 4 digits and first)
+                if (length($1) == 4 && $1 > 1900) {
+                  # YYYY-MM-DD or YYYY/MM/DD format
+                  year=$1; month=$2; day=$3
+                  printf "%04d%02d%02d", year, month, day
+                }
+                # Check if year is clearly in third position (4 digits or >24)
+                else if (length($3) == 4 || $3 > 24) {
+                  # M/D/YYYY, MM/DD/YYYY, M-D-YY, MM-DD-YY format
                   year = (length($3) == 2) ? "20"$3 : $3
-                  printf "%04d%02d%02d", year, $1, $2
-                } else if ($1 > 12 || (length($1) == 4)) {
-                  # YYYY/MM/DD or invalid MM, assume year first
+                  month=$1; day=$2
+                  printf "%04d%02d%02d", year, month, day
+                }
+                # If first value >12, assume YY/MM/DD or YY-MM-DD
+                else if ($1 > 12) {
                   year = (length($1) == 2) ? "20"$1 : $1
-                  printf "%04d%02d%02d", year, $2, $3
-                } else {
-                  # M/D/YY or MM/DD/YY format (default)
+                  month=$2; day=$3
+                  printf "%04d%02d%02d", year, month, day
+                }
+                # Default to M/D/YY or M-D-YY format
+                else {
                   year = (length($3) == 2) ? "20"$3 : $3
-                  printf "%04d%02d%02d", year, $1, $2
+                  month=$1; day=$2
+                  printf "%04d%02d%02d", year, month, day
                 }
               } else {
                 # Fallback
@@ -62,12 +71,45 @@ jobs:
               }
             }')
             
+            # Convert to standardized MM/DD/YY format for display
+            display_date=$(echo "$date" | awk -F'[-/]' '{
+              if (NF == 3) {
+                # Check if it is YYYY-MM-DD format (year is 4 digits and first)
+                if (length($1) == 4 && $1 > 1900) {
+                  year=substr($1, 3, 2); month=$2; day=$3
+                  printf "%02d/%02d/%s", month, day, year
+                }
+                # Check if year is clearly in third position (4 digits or >24)
+                else if (length($3) == 4 || $3 > 24) {
+                  year = (length($3) == 2) ? $3 : substr($3, 3, 2)
+                  month=$1; day=$2
+                  printf "%02d/%02d/%s", month, day, year
+                }
+                # If first value >12, assume YY/MM/DD or YY-MM-DD
+                else if ($1 > 12) {
+                  year = (length($1) == 2) ? $1 : substr($1, 3, 2)
+                  month=$2; day=$3
+                  printf "%02d/%02d/%s", month, day, year
+                }
+                # Default to M/D/YY or M-D-YY format
+                else {
+                  year = (length($3) == 2) ? $3 : substr($3, 3, 2)
+                  month=$1; day=$2
+                  printf "%02d/%02d/%s", month, day, year
+                }
+              } else {
+                print $0
+              }
+            }')
+            
             # Store: sortable_date|tag|url|display_date
-            echo "$sort_date|$tag|$html_url|$date" >> releases_temp.txt
+            echo "$sort_date|$tag|$html_url|$display_date" >> releases_temp.txt
           done
           
           # Sort by date (newest first) and build releases section
           echo "## Releases" > releases_section.md
+          echo "" >> releases_section.md
+          echo "_All dates are in MM/DD/YY format_" >> releases_section.md
           echo "" >> releases_section.md
           
           # Get the latest release (first line after sorting)
