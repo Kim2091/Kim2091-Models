@@ -22,27 +22,74 @@ jobs:
           # Fetch all releases
           releases=$(gh api repos/${{ github.repository }}/releases --paginate)
           
-          # Start building the releases section
-          echo "## Releases" > releases_section.md
-          echo "" >> releases_section.md
-          
-          # Parse each release
+          # Parse releases and store in temporary file with sortable dates
           echo "$releases" | jq -r '.[] | @json' | while read -r release; do
             tag=$(echo "$release" | jq -r '.tag_name')
             html_url=$(echo "$release" | jq -r '.html_url')
             body=$(echo "$release" | jq -r '.body')
             
             # Extract date from body using regex pattern **Date:** [date]
-            date=$(echo "$body" | grep -oP '\*\*Date:\*\*\s*\K[0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4}' | head -1)
+            date=$(echo "$body" | grep -oP '\*\*Date:\*\*\s*\K[^\s\n]+' | head -1)
             
             # If no date found, use published_at as fallback
             if [ -z "$date" ]; then
               date=$(echo "$release" | jq -r '.published_at' | cut -d'T' -f1)
             fi
             
-            # Add to releases section
+            # Convert date to sortable format YYYYMMDD for sorting
+            # Handle multiple formats: M/D/YY, MM/DD/YY, YY/MM/DD, YYYY-MM-DD
+            sort_date=$(echo "$date" | awk -F'[-/]' '{
+              if (NF == 3) {
+                if (index($0, "-") > 0) {
+                  # YYYY-MM-DD format
+                  printf "%04d%02d%02d", $1, $2, $3
+                } else if (length($3) == 4 || ($3 > 24 && length($3) == 2)) {
+                  # YY/MM/DD format (year in position 3, or 2-digit year > 24)
+                  year = (length($3) == 2) ? "20"$3 : $3
+                  printf "%04d%02d%02d", year, $1, $2
+                } else if ($1 > 12 || (length($1) == 4)) {
+                  # YYYY/MM/DD or invalid MM, assume year first
+                  year = (length($1) == 2) ? "20"$1 : $1
+                  printf "%04d%02d%02d", year, $2, $3
+                } else {
+                  # M/D/YY or MM/DD/YY format (default)
+                  year = (length($3) == 2) ? "20"$3 : $3
+                  printf "%04d%02d%02d", year, $1, $2
+                }
+              } else {
+                # Fallback
+                print "00000000"
+              }
+            }')
+            
+            # Store: sortable_date|tag|url|display_date
+            echo "$sort_date|$tag|$html_url|$date" >> releases_temp.txt
+          done
+          
+          # Sort by date (newest first) and build releases section
+          echo "## Releases" > releases_section.md
+          echo "" >> releases_section.md
+          
+          # Get the latest release (first line after sorting)
+          first_line=true
+          sort -r releases_temp.txt | while IFS='|' read -r sort_date tag html_url date; do
+            if [ "$first_line" = true ]; then
+              echo "### 🎉 Latest Release: [$tag]($html_url)" >> releases_section.md
+              echo "**Released:** $date" >> releases_section.md
+              echo "" >> releases_section.md
+              echo "---" >> releases_section.md
+              echo "" >> releases_section.md
+              echo "### All Releases" >> releases_section.md
+              echo "" >> releases_section.md
+              first_line=false
+            fi
+            
+            # Add to releases list
             echo "- [$tag]($html_url) - $date" >> releases_section.md
           done
+          
+          # Clean up temp file
+          rm -f releases_temp.txt
           
           # Update README.md
           # This replaces content between <!-- RELEASES_START --> and <!-- RELEASES_END -->
