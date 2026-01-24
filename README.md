@@ -12,13 +12,14 @@ Please consider supporting my work on Ko-fi:
 
 _All dates are in MM/DD/YY format_
 
-### 🎉 Latest Release: [1x-SwatKats_DIS_Balanced](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-SwatKats_DIS_Balanced)
-**Released:** 11/26/25
+### 🎉 Latest Release: [1x-DeBink_TFDAT](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-DeBink_TFDAT)
+**Released:** 01/24/26
 
 ---
 
 ### All Releases
 
+- [1x-DeBink_TFDAT](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-DeBink_TFDAT) - 01/24/26
 - [1x-SwatKats_DIS_Balanced](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-SwatKats_DIS_Balanced) - 11/26/25
 - [2x-AnimeUp](https://github.com/Kim2091/Kim2091-Models/releases/tag/2x-AnimeUp) - 10/03/25
 - [1x-FullTone](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-FullTone) - 06/12/25
@@ -27,7 +28,6 @@ _All dates are in MM/DD/YY format_
 - [1x-SuperScale](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-SuperScale) - 05/05/25
 - [2x-GameUpV2_TSCUNet](https://github.com/Kim2091/Kim2091-Models/releases/tag/2x-GameUpV2_TSCUNet) - 03/28/25
 - [2x-GameUp_TSCUNet](https://github.com/Kim2091/Kim2091-Models/releases/tag/2x-GameUp_TSCUNet) - 03/26/25
-- [1x-DeBink_TFDAT](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-DeBink_TFDAT) - 01/24/25
 - [2x-AnimeSharpV4](https://github.com/Kim2091/Kim2091-Models/releases/tag/2x-AnimeSharpV4) - 01/07/25
 - [1x-UnResizeOnly_RCAN](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-UnResizeOnly_RCAN) - 01/06/25
 - [1x-BroadcastToStudio_Compact](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-BroadcastToStudio_Compact) - 12/01/24
