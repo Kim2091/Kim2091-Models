@@ -27,6 +27,7 @@ _All dates are in MM/DD/YY format_
 - [1x-SuperScale](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-SuperScale) - 05/05/25
 - [2x-GameUpV2_TSCUNet](https://github.com/Kim2091/Kim2091-Models/releases/tag/2x-GameUpV2_TSCUNet) - 03/28/25
 - [2x-GameUp_TSCUNet](https://github.com/Kim2091/Kim2091-Models/releases/tag/2x-GameUp_TSCUNet) - 03/26/25
+- [1x-DeBink_TFDAT](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-DeBink_TFDAT) - 01/24/25
 - [2x-AnimeSharpV4](https://github.com/Kim2091/Kim2091-Models/releases/tag/2x-AnimeSharpV4) - 01/07/25
 - [1x-UnResizeOnly_RCAN](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-UnResizeOnly_RCAN) - 01/06/25
 - [1x-BroadcastToStudio_Compact](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-BroadcastToStudio_Compact) - 12/01/24
