@@ -12,13 +12,14 @@ Please consider supporting my work on Ko-fi:
 
 _All dates are in MM/DD/YY format_
 
-### 🎉 Latest Release: [1x-DeBink_TFDAT](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-DeBink_TFDAT)
-**Released:** 01/24/26
+### 🎉 Latest Release: [1x-AniRestore](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-AniRestore)
+**Released:** 02/05/26
 
 ---
 
 ### All Releases
 
+- [1x-AniRestore](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-AniRestore) - 02/05/26
 - [1x-DeBink_TFDAT](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-DeBink_TFDAT) - 01/24/26
 - [1x-SwatKats_DIS_Balanced](https://github.com/Kim2091/Kim2091-Models/releases/tag/1x-SwatKats_DIS_Balanced) - 11/26/25
 - [2x-AnimeUp](https://github.com/Kim2091/Kim2091-Models/releases/tag/2x-AnimeUp) - 10/03/25
