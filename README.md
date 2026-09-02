@@ -3,7 +3,7 @@ Look below for the list of released models, sorted by date!
 
 Each release mentions the license associated with the model.
 
-Please consider supporting my work on Ko-fi:
+Please consider donating to help fund development (and keep me housed)!
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J3BCC3L)
 
